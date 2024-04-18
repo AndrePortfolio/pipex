@@ -1,23 +1,22 @@
-NAME = push_swap
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-SRC_DIR = sources
-SRC = $(wildcard $(SRC_DIR)/*.c)
+NAME = pipex
+NAME_BONUS = pipex_bonus
 LIBFT = libft/libft.a
-OBJ_DIR = objects
-OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
+CFLAGS = -Wall -Wextra -Werror -g
+CC = cc
 COMPRESS = ar rcs
 RM = rm -rf
 
-# Test
-NBRS = numbers.txt
-READ_NBRS = $(shell cat $(NBRS))
-NUM = $(if $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS)),$(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS)),5)
-COMMAND= $(shell seq -999999 999999 | shuf -n $(NUM) > $(NBRS))
-COMMAND_MAC = $(shell jot -r -n $(NUM) -999999 999999 > $(NBRS))
-RUN = ./$(NAME) $(READ_NBRS)
-CHECKER = ./checker_linux $(READ_NBRS)
-CHECKER_MAC = ./checker_mac $(READ_NBRS)
+SRC_DIR = sources
+OBJ_DIR = objects
+SRC = $(addprefix $(SRC_DIR)/,$(addsuffix .c, $(S)))
+S = pipex processes close_program get_path
+OBJ = $(addprefix $(OBJ_DIR)/,$(notdir $(SRC:.c=.o)))
+
+SRC_BONUS_DIR = sources_bonus
+OBJ_BONUS_DIR = bonus_objects
+SRC_BONUS = $(addprefix $(SRC_BONUS_DIR)/,$(addsuffix _bonus.c, $(B)))
+B = close_program free get_path pipex processes read_input utils
+OBJ_BONUS = $(addprefix $(OBJ_BONUS_DIR)/,$(notdir $(SRC_BONUS:.c=.o)))
 
 # Colours
 GREEN = \033[1;32m
@@ -32,54 +31,39 @@ $(NAME): $(OBJ_DIR) $(OBJ) $(LIBFT)
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 	@echo "$(CYAN)make$(RESET)   $@ $(GREEN)[OK]$(RESET)"
 
+bonus: $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJ_BONUS_DIR) $(OBJ_BONUS) $(LIBFT)
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBFT) -o $(NAME_BONUS)
+	@echo "$(CYAN)make$(RESET)   bonus $(GREEN)[OK]$(RESET)"
+
 $(LIBFT):
 	@$(MAKE) -C ./libft --no-print-directory
 
+$(OBJ_DIR):
+	@mkdir -p $@
+
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) -c $< -o $@
+
+$(OBJ_BONUS_DIR):
+	@mkdir -p $@
+
+$(OBJ_BONUS_DIR)/%.o: $(SRC_BONUS_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@$(RM) $(OBJ_DIR)
+	@$(RM) $(OBJ_DIR) $(OBJ_BONUS_DIR)
 	@$(MAKE) -C ./libft clean --no-print-directory
 	@echo "$(ORANGE)$@$(RESET)  $(NAME) $(GREEN)[OK]$(RESET)"
+	@echo "$(ORANGE)$@$(RESET)  bonus $(GREEN)[OK]$(RESET)"
 
 fclean: clean
-	@$(RM) $(NAME)
+	@$(RM) $(NAME) $(NAME_BONUS)
 	@$(MAKE) -C ./libft fclean --no-print-directory
 	@echo "$(RED)$@$(RESET) $(NAME) $(GREEN)[OK]$(RESET)"
+	@echo "$(RED)$@$(RESET) bonus $(GREEN)[OK]$(RESET)"
 
-re: fclean all
+re: fclean all bonus
 
-test: re
-	@$(COMMAND)
-	@echo "\n$(RED)./$(NAME)$(RESET)" $(READ_NBRS)
-	@$(RUN)
-	@printf "\n$(CYAN)Number of operations: $(RESET)%s\n" `$(RUN) | wc -l`
-	@printf "$(GREEN)Checker: $(RESET)"
-	@$(RUN) | $(CHECKER)
-	@$(RM) $(NBRS)
-
-test_mac: re
-	@$(COMMAND_MAC)
-	@echo "\n$(RED)./$(NAME)$(RESET)" $(READ_NBRS)
-	@$(RUN)
-	@printf "\n$(CYAN)Number of operations: $(RESET)%s\n" `$(RUN) | wc -l`
-	@printf "$(GREEN)Checker: $(RESET)"
-	@$(RUN) | $(CHECKER_MAC)
-	@$(RM) $(NBRS)
-
-v: re
-	@$(COMMAND)
-	@echo "\n"
-	valgrind -s --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME) $(READ_NBRS)
-	$(RM) $(NBRS)
-
-tester: re
-	@echo "\n"
-	@curl https://git.homegu.com/raw/hu8813/tester_push_swap/main/pstester.py | python3 -
-
-%:
-	@true
-
-.PHONY: all clean fclean re test test_mac v tester
+.PHONY: all clean fclean re bonus

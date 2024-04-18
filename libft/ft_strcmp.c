@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_a_array.c                                  :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/19 12:06:34 by andrealbuqu       #+#    #+#             */
-/*   Updated: 2024/01/19 12:11:01 by andrealbuqu      ###   ########.fr       */
+/*   Created: 2024/03/14 00:22:37 by andrealbuqu       #+#    #+#             */
+/*   Updated: 2024/03/14 00:22:54 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_free_a_array(char **str)
+int	ft_strcmp(const char *str1, const char *str2)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
-	if (!str)
-		return ;
-	while (str[i])
-		free(str[i++]);
-	free(str);
+	while (str1[i] && str1[i] == str2[i])
+		i++;
+	return ((unsigned char)str1[i] - (unsigned char)str2[i]);
 }

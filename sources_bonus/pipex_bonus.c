@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   pipex_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 20:37:25 by andre-da          #+#    #+#             */
-/*   Updated: 2024/03/12 19:18:43 by andre-da         ###   ########.fr       */
+/*   Created: 2024/02/23 13:56:54 by andre-da          #+#    #+#             */
+/*   Updated: 2024/03/20 21:05:35 by andre-da         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "pipex_bonus.h"
 
-size_t	ft_strlen(const char *s)
+int	main(int argc, char **argv, char **envp)
 {
-	size_t	i;
+	t_info	use;
+	int		status;
 
-	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	read_input(argc, argv, &use);
+	get_files(&use, argc, argv);
+	start_processes(argv, envp, &use);
+	close_all_fds(&use);
+	status = wait_pids(argc, &use);
+	free_all(&use);
+	return (WEXITSTATUS(status));
 }
-
-/* int	main(void)
-{
-	char	str[] = "Hello World!";
-
-	printf("%zu\n", ft_strlen(str));
-	return (0);
-} */

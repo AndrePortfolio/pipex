@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_freematrix.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andre-da <andre-da@student.42.fr>          +#+  +:+       +#+        */
+/*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/02 20:37:25 by andre-da          #+#    #+#             */
-/*   Updated: 2024/03/12 19:18:43 by andre-da         ###   ########.fr       */
+/*   Created: 2024/01/19 12:06:34 by andrealbuqu       #+#    #+#             */
+/*   Updated: 2024/02/26 17:07:49 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *s)
+void	ft_freematrix(char **str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	if (!s)
-		return (0);
-	while (s[i])
-		i++;
-	return (i);
+	if (!str)
+		return ;
+	while (str[i])
+		free(str[i++]);
+	free(str);
 }
-
-/* int	main(void)
-{
-	char	str[] = "Hello World!";
-
-	printf("%zu\n", ft_strlen(str));
-	return (0);
-} */

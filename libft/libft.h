@@ -6,7 +6,7 @@
 /*   By: andrealbuquerque <andrealbuquerque@stud    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 18:13:05 by andre-da          #+#    #+#             */
-/*   Updated: 2024/01/19 12:07:28 by andrealbuqu      ###   ########.fr       */
+/*   Updated: 2024/03/14 00:23:20 by andrealbuqu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <limits.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 
 typedef struct s_list
 {
@@ -42,7 +44,7 @@ int		ft_atoi(const char *nptr);
 long	ft_atol(const char *str);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t nmemb, size_t size);
-void	ft_free_a_array(char **str);
+void	ft_freematrix(char **str);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
 int		ft_isascii(int c);
@@ -77,6 +79,7 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strcmp(const char *str1, const char *str2);
 char	*ft_strnstr(const char *phrase, const char *word, size_t n);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);

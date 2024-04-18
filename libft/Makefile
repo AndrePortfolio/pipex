@@ -17,7 +17,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
 	@ar rcs $@ $(OBJ)
-	@echo "$(CYAN)make$(RESET)   libft     $(GREEN)[OK]$(RESET)"
+	@echo "$(CYAN)make$(RESET)   libft $(GREEN)[OK]$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -27,11 +27,11 @@ $(OBJ_DIR):
 
 clean:
 	@$(RM) $(OBJ_DIR)
-	@echo "$(ORANGE)$@$(RESET)  libft     $(GREEN)[OK]$(RESET)"
+	@echo "$(ORANGE)$@$(RESET)  libft $(GREEN)[OK]$(RESET)"
 
 fclean:
 	@$(RM) $(NAME)
-	@echo "$(RED)$@$(RESET) libft     $(GREEN)[OK]$(RESET)"
+	@echo "$(RED)$@$(RESET) libft $(GREEN)[OK]$(RESET)"
 
 re: fclean all
 
